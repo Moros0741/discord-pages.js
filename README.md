@@ -5,8 +5,8 @@
 
 ## Example
 
-```
-cosnt { Paginator, Page } = require("paginator.js");
+```js
+const { Paginator, Page } = require("paginator.js");
 
 const paginator = new Paginator({
   perPage: 5
