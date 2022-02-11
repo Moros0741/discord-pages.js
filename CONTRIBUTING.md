@@ -22,5 +22,6 @@ intended use case and how you expect it to run. Speak about any difficulties or 
 may know how to help and get your code to the place you originally intended. 
 
 __**IMPORTANT**__ 
+
 Link your issue to your pull request. Linking your issue will close your issue if the 
 pull request is merged to main. We want to make sure we are keeping the issues page clean. 
