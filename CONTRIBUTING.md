@@ -21,5 +21,6 @@ Once you have added your proposed changes, go ahead and make a pull request. Mak
 intended use case and how you expect it to run. Speak about any difficulties or work around you had to do whether originally a part of your plan or otherwise. Community members
 may know how to help and get your code to the place you originally intended. 
 
-**IMPORTANT** Link your issue to your pull request. Linking your issue will close your issue if the 
+__**IMPORTANT**__ 
+Link your issue to your pull request. Linking your issue will close your issue if the 
 pull request is merged to main. We want to make sure we are keeping the issues page clean. 
