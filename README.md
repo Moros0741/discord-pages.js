@@ -9,7 +9,7 @@ This module is **Still Under Development**. It is not recommeded for you to inst
 
 ## Reporting Issues
 
-Before reporting any issues or suggesting features please visit our [Issue Templates](.github/ISSUE_TEMPLATES) to better understand what we consider great issues.
+Before reporting any issues or suggesting features please visit our [Issue Templates](.github/ISSUE_TEMPLATE) to better understand what we consider great issues.
 
 ## Contributing
 
