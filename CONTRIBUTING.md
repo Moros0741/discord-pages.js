@@ -6,7 +6,7 @@ of guides:
 
 ## 1. Create an Issue
 
-Create an issue on the issues tab of this repository. You can view what we look for in a good issue, [here](/ISSUE_TEMPLATE.md). Creating a pull request not only allows us to
+Create an issue on the issues tab of this repository. You can view what we look for in good issues, [here](/.github/ISSUE_TEMPLATE). Creating a pull request not only allows us to
 keep track of community improvements but also allows us to keep a log of changes over time and discern whether the project is popular enough to continue maintaining or whether
 our efforts would be better spent on a module that may be more in need.
 
