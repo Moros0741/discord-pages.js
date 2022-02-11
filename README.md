@@ -26,8 +26,8 @@ const paginator = new Paginator({
   pageCount: 2
 });
 
-// Add pages to the paginator, Adding one page with more contents than you
-// permitting per page will tell the module you want to use the same page multiple times.
+// Extension of MessageEmbed from discord.js has all the same features as MessageEmbed but with
+// Array functionality of addComponents from MessageActionRow in discord.js
 paginator.addPages(
   new Page()
     .setTitle("Hello World!")
@@ -37,14 +37,11 @@ paginator.addPages(
     .setColor("GOLD")
 );
 
-// Set the contents you want to break up between pages.
-// An array of strings, numbers, or even EmbedField Objects will allow
-// paginator.js to tailor contents to your specific needs
+// the array of data to be broken up and placed on the different pages.
 paginator.setContents(["1", "2", "3", "4", "5", "6"]);
 
-// Can't waste all this "Hard Work" Initiate your created pages
-// and send to Discord. 
-// sendable = interaction, channel, member objects
+// Starts the Paginator and sends it to discord (buttons handled within module); 
+// sendable = interaction, channel, user object to send pages to.
 return paginator.start(sendable);
 ```
 
