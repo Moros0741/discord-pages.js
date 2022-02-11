@@ -3,6 +3,18 @@
 
  Simple JavaScript module for paginating discord embeds
 
+## NOTICES
+
+This module is **Still Under Development**. It is not recommeded for you to install whether by copying the contents of the src folder or installing with NPM.
+
+## Reporting Issues
+
+Before reporting any issues or suggesting features please visit our [Issue Templates](.github/ISSUE_TEMPLATES) to better understand what we consider great issues.
+
+## Contributing
+
+We are always interested in contributions! You can see how to contribute [here](CONTRIBUTING.md)
+
 ## Example
 
 ```js
@@ -35,3 +47,4 @@ paginator.setContents(["1", "2", "3", "4", "5", "6"]);
 // sendable = interaction, channel, member objects
 return paginator.start(sendable);
 ```
+
