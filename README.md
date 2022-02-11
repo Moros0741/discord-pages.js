@@ -41,7 +41,7 @@ paginator.addPages(
 paginator.setContents(["1", "2", "3", "4", "5", "6"]);
 
 // Starts the Paginator and sends it to discord (buttons handled within module); 
-// sendable = interaction, channel, user object to send pages to.
+// sendable = interaction, channel, or member object to send pages to.
 return paginator.start(sendable);
 ```
 
