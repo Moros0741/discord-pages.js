@@ -1,8 +1,12 @@
 <br></br>
 name: Feature request
+
 about: Suggest an idea for this project
+
 title: ''
+
 labels: ''
+
 assignees: ''
 
 <br></br>
