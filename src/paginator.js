@@ -21,11 +21,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const { 
-	MessageEmbed, 
-	MessageActionRow, 
-	MessageButton 
-} = require("discord.js");
+/////////////////////////////////////////////
+//            CHORE:
+////////////////////////////////////////////
+/* 
+- Fix while looop in buildPages 
+- Add sendables function.
+- create message component handler. 
+*/
+
+const chunker = require("./modules/chunker");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+
+const { TypeError, SendableError, ContentsError } = require("./errors/Errors");
 
 function buildComponents() {
   return [
@@ -46,24 +54,31 @@ function buildComponents() {
 
 class Paginator {
   pages = [];
-  perPage = 1;
+  contentType = "SINGLE"; // SINGLE, MULTIPLE, FIELDS
+  perPage;
   curpage = 1;
-  pageCount = 1;
   components = new MessageActionRow();
   contents = [];
-  constructor(paginatorOptions = { pages, perPage, pageCount }) {
-    this.pages = paginatorOptions.pages ? paginatorOptions.pages : [];
-    this.perPage = paginatorOptions.perPage ? paginatorOptions.perPage : 1;
-    this.pageCount = paginatorOptions.pageCount
-      ? paginatorOptions.pageCount
-      : 1;
+  constructor(paginatorOptions = { perPage, contentType }) {
+    if (paginatorOptions.contentType) {
+      const accepted = ["SINGLE", "MULTIPLE", "FIELD"];
+      if (accepted.includes(paginatorOptions.contentType.toUpperCase())) {
+        this.type = paginatorOptions.contentType.toUpperCase();
+      } else {
+        throw new TypeError(
+          paginatorOptions.contentType.toUpperCase() +
+            "\n" +
+            'Valid types are: "SINGLE", "MULTIPLE", or "FIELD"'
+        );
+      }
+    }
+    this.perPage = paginatorOptions.perPage > 1 ? paginatorOptions.perPage : 1;
     const components = buildComponents();
     this.components.addComponents(components);
   }
   addPages(...pages) {
     return (this.pages = pages);
   }
-
   setEmojis(emojis = { Back, Forward, Close }) {
     if (emojis.Back) {
       this.components.components[0]?.setEmoji(emojis.Back);
@@ -77,37 +92,103 @@ class Paginator {
       this.components.components[2]?.setEmoji(emojis.Close);
     }
   }
-
-  setContents(...contents) {
+  setContents(contents) {
+    if (!Array.isArray(contents)) {
+      throw new TypeError(
+        "setContents() only takes type Array. Not type " +
+          String(typeof contents)
+      );
+    }
     this.contents = contents;
   }
-
   getPage(pageNumber) {
     return this.pages[pageNumber - 1];
   }
-
   getContent(index) {
     return this.contents[index];
   }
-
   getPages() {
-    return this.pages;
+    return this.buildPages();
   }
-
   getContents() {
     return this.contents;
   }
-
   getCurrentPage() {
     return this.curpage;
   }
-
   getTotalPages() {
     return this.pageCount;
   }
-
+  getType() {
+    return this.type;
+  }
   getPageLimit() {
     return this.perPage;
+  }
+  buildPages() {
+    if (this.contents.length === 0) {
+      throw new ContentsError(
+        "No Contents Found. Use setContents() to add some."
+      );
+    }
+    let chunkedArray;
+
+    let i = this.pages.length;
+    let c = Math.floor(this.contents.length / this.perPage);
+    if (c > i) {
+      while (i < c) {
+        let page = this.pages[0];
+        this.pages.push(page);
+        i++;
+      }
+    }
+
+    if (this.contents.length > this.perPage) {
+      chunkedArray = chunker.execute(this.contents, this.perPage);
+    } else if (this.contents.length <= this.perPage) {
+      chunkedArray = this.contents;
+    }
+    let n = 0;
+    this.pages.forEach((page) => {
+      let string = "";
+      //Line 155 to prevent RangeError on chunkedArray[n] on line 156;
+      if ((n + 1) < this.pages.length) {
+        for (const item of chunkedArray[n]) {
+          switch (this.type) {
+            case "SINGLE":
+              string += String(item);
+              string += "\n";
+              break;
+            case "MULTIPLE":
+              page.addField("\u200b", `${item}`, false);
+              break;
+            case "FIELD":
+              page.addField(
+                `${item[`name`]}`,
+                `${item[`value`]}`,
+                item[`inline`]
+              );
+              break;
+          }
+        }
+        if (this.type === "SINGLE") {
+          page.addField("\u200b", string, false);
+        }
+      };
+      n++;
+    });
+    return this.pages;
+  }
+
+  async start(sendable) {
+    try {
+      await send(this, sendable);
+    } catch (err) {
+      msg =
+        "INVALID TYPE: Sendable is not of Type: TEXT_CHANNEL, DEFAULT MessageType, or APPLICATION_COMMAND";
+      console.log(msg, err);
+      return msg, err;
+    }
   }
 }
 
@@ -118,23 +199,19 @@ class Page extends MessageEmbed {}
 //---------------------------------------
 
 const paginator = new Paginator({
-  perPage: 5,
-  pageCount: 1,
+  perPage: 3,
+  contentType: "MULTIPLE",
 });
 paginator.addPages(
   new Page()
-    .setTitle("HELLO KITTY")
-    .setDescription("Welcome to Neon Cat")
+    .setTitle("Hello World")
+    .setDescription("This is Page One")
     .setColor("DEFAULT")
-    .setURL("https://lockbot.dev"),
-  new Page()
-    .setTitle("Welcome again")
-    .setDescription("Hello again to Neon Cat")
-    .setColor("DEFAULT")
-    .setURL("https://lockbot.dev")
 );
-paginator.setEmojis({
-  Back: ":back:",
-  Forward: ":forward:",
-  Close: ":x:",
-});
+
+paginator.setContents([1, 2, 3, 4, 5, 6]);
+console.log("Per Page ", paginator.getPageLimit());
+const pages = paginator.buildPages();
+for (const page of pages) {
+  console.log(page.fields);
+}
