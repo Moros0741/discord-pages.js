@@ -5,7 +5,7 @@
 
 ## NOTICES
 
-This module is **Still Under Development**. It is not recommeded for you to install whether by copying the contents of the src folder or installing with NPM.
+This module is in **BETA RELEASE** If you notice any bugs, please open an issue on the repository.
 
 ## Reporting Issues
 
@@ -18,12 +18,12 @@ We are always interested in contributions! You can see how to contribute [here](
 ## Example
 
 ```js
-const { Paginator, Page } = require("paginator.js");
+const { Paginator, Page } = require("discord-pages.js");
 
 // Create paginator instance, tell it how many contents per page we want and how many pages 
 const paginator = new Paginator({
   perPage: 5,
-  pageCount: 2
+  contentType: "MULTIPLE"
 });
 
 // Extension of MessageEmbed from discord.js has all the same features as MessageEmbed but with
