@@ -19,46 +19,39 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
 */
-
-/////////////////////////////////////////////
-//            CHORE:
-////////////////////////////////////////////
-/* 
-- Fix while looop in buildPages 
-- Add sendables function.
-- create message component handler. 
-*/
-
 const chunker = require("./modules/chunker");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 const { TypeError, SendableError, ContentsError } = require("./errors/Errors");
 
 function buildComponents() {
-  return [
+  return new MessageActionRow().addComponents(
     new MessageButton()
       .setStyle("PRIMARY")
       .setLabel("Back")
       .setCustomId("page-back"),
     new MessageButton()
       .setStyle("PRIMARY")
-      .setLabel("Forward")
+      .setLabel("Next")
       .setCustomId("page-forward"),
     new MessageButton()
       .setStyle("DANGER")
-      .setLabel("Close")
+      .setLabel("Cancel")
       .setCustomId("page-close"),
-  ];
+  );
 }
 
-class Paginator {
+exports.Paginator = class {
   pages = [];
   contentType = "SINGLE"; // SINGLE, MULTIPLE, FIELDS
   perPage;
   curpage = 1;
-  components = new MessageActionRow();
+  components;
   contents = [];
+  builtPages = [];
   constructor(paginatorOptions = { perPage, contentType }) {
     if (paginatorOptions.contentType) {
       const accepted = ["SINGLE", "MULTIPLE", "FIELD"];
@@ -74,7 +67,7 @@ class Paginator {
     }
     this.perPage = paginatorOptions.perPage > 1 ? paginatorOptions.perPage : 1;
     const components = buildComponents();
-    this.components.addComponents(components);
+    this.components = components
   }
   addPages(...pages) {
     return (this.pages = pages);
@@ -134,10 +127,10 @@ class Paginator {
     let chunkedArray;
 
     let i = this.pages.length;
-    let c = Math.floor(this.contents.length / this.perPage);
+    let c = Math.ceil(this.contents.length / this.perPage);
     if (c > i) {
       while (i < c) {
-        let page = this.pages[0];
+        let page = new exports.Page(this.pages[0]);
         this.pages.push(page);
         i++;
       }
@@ -149,11 +142,32 @@ class Paginator {
       chunkedArray = this.contents;
     }
     let n = 0;
-    this.pages.forEach((page) => {
+    for (const page of this.pages) {
       let string = "";
-      //Line 155 to prevent RangeError on chunkedArray[n] on line 156;
-      if ((n + 1) < this.pages.length) {
-        for (const item of chunkedArray[n]) {
+      if (chunkedArray[0]?.length > 1) {
+          for (const item of chunkedArray[n]) {
+            switch (this.type) {
+              case "SINGLE":
+                string += String(item);
+                string += "\n";
+                break;
+              case "MULTIPLE":
+                page.addField("\u200b", `${item}`, false);
+                break;
+              case "FIELD":
+                page.fields.push({
+                  name: `${item[`name`]}`,
+                  value: `${item[`value`]}`,
+                  inline: item[`inline`]
+                });
+                break;
+            }
+          }
+          if (this.type === "SINGLE") {
+            page.addField("\u200b", string, false);
+          }
+      } else {
+        for (const item of chunkedArray) {
           switch (this.type) {
             case "SINGLE":
               string += String(item);
@@ -163,55 +177,77 @@ class Paginator {
               page.addField("\u200b", `${item}`, false);
               break;
             case "FIELD":
-              page.addField(
-                `${item[`name`]}`,
-                `${item[`value`]}`,
-                item[`inline`]
-              );
+              page.fields.push({
+                name: `${item[`name`]}`,
+                value: `${item[`value`]}`,
+                inline: item[`inline`]
+              });
               break;
           }
         }
         if (this.type === "SINGLE") {
           page.addField("\u200b", string, false);
         }
-      };
+      }
       n++;
-    });
-    return this.pages;
+      page.setFooter({text: `Page ${n} of ${this.pages.length}`});
+      this.builtPages.push(page);
+    };
   }
 
   async start(sendable) {
     try {
-      await send(this, sendable);
+      await this.send(sendable);
     } catch (err) {
-      msg =
+      const msg =
         "INVALID TYPE: Sendable is not of Type: TEXT_CHANNEL, DEFAULT MessageType, or APPLICATION_COMMAND";
       console.log(msg, err);
       return msg, err;
     }
   }
+  async send(sendable) {
+    this.buildPages();
+    const pages = this.builtPages;
+    let m = await sendable.reply({
+      embeds: [pages[0]],
+      components: [this.components],
+      fetchReply: true,
+    });
+
+    const filter = (i) => {
+      return i.user.id === sendable.user.id
+    };
+
+    const collector = sendable.channel.createMessageComponentCollector({filter, componentType: "BUTTON", time: 120000});
+
+    collector.on('collect', async (i) => {
+      await i.deferUpdate()
+      if (i.customId === "page-forward") {
+        if (this.curpage < pages.length) {
+          await sendable.editReply({
+            embeds: [pages[this.curpage]]
+          });
+          this.curpage = this.curpage + 1;
+        }
+      } else if (i.customId === 'page-back') {
+        if (this.curpage > 1) {
+          await sendable.editReply({
+            embeds: [pages[this.curpage - 2]],
+          });
+          this.curpage -= 1;
+        }
+      } else if (i.customId === 'page-close') {
+        return m.edit({
+          components: [],
+        });
+      };
+    });
+    collector.on('end', async () => {
+      return m.edit({
+        components: [],
+      });
+    });
+  }
 }
 
-class Page extends MessageEmbed {}
-
-// --------------------------------------
-//              TESTING
-//---------------------------------------
-
-const paginator = new Paginator({
-  perPage: 3,
-  contentType: "MULTIPLE",
-});
-paginator.addPages(
-  new Page()
-    .setTitle("Hello World")
-    .setDescription("This is Page One")
-    .setColor("DEFAULT")
-);
-
-paginator.setContents([1, 2, 3, 4, 5, 6]);
-console.log("Per Page ", paginator.getPageLimit());
-const pages = paginator.buildPages();
-for (const page of pages) {
-  console.log(page.fields);
-}
+exports.Page = class extends MessageEmbed {}
