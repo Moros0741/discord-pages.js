@@ -1,8 +1,8 @@
 {
   "name": "discord-pages.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple JavaScript module for paginating Discord Embeds and handling buttons",
-  "main": "./src/paginator.js",
+  "main": "./src/discord-pages.js",
   "scripts": {
     "test": "echo test"
   },
