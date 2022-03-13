@@ -4,11 +4,11 @@
   "description": "Simple JavaScript module for paginating Discord Embeds and handling buttons",
   "main": "./src/discord-pages.js",
   "scripts": {
-    "test": "node ./src/discord-pages.js"
+    "test": "node ~./src/discord-pages.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Moros0741/paginator.js.git"
+    "url": "git+https://github.com/Moros0741/discord-pages.js.git"
   },
   "keywords": [
     "paginator",
@@ -18,9 +18,9 @@
   "author": "Moros0741",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Moros0741/paginator.js/issues"
+    "url": "https://github.com/Moros0741/discord-pages.js/issues"
   },
-  "homepage": "https://github.com/Moros0741/paginator.js#readme",
+  "homepage": "https://github.com/discord-pages.js#readme",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.29.0",
