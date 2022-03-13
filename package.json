@@ -4,7 +4,7 @@
   "description": "Simple JavaScript module for paginating Discord Embeds and handling buttons",
   "main": "./src/discord-pages.js",
   "scripts": {
-    "test": "npm test"
+    "test": "echo 'complete'"
   },
   "repository": {
     "type": "git",
