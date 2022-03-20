@@ -41,6 +41,18 @@ paginator.setContents(["1", "2", "3", "4", "5", "6"]);
 
 // Starts the Paginator and sends it to discord (buttons handled within module); 
 // sendable = interaction, channel, or member object to send pages to.
-return paginator.start(sendable);
+
+// For channel:
+await paginator.start(channel, user);
+
+// For interaction:
+await paginator.start(interaction, user);
+
+// for User
+await paginator.start(user)
 ```
+
+The user Parameter in `.start(sendable, user);` is important for restricting buttons to the specified user. user parameter is only used in sending to a channel or replying to an interaction. It is expected that user will be a APIUser object, NOT Discord Snowflake. 
+
+If user parameter is omitted, the paginator buttons will be available to all users with access to the channel the message or interaction is posted to.
 

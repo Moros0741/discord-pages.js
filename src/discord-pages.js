@@ -25,7 +25,12 @@ SOFTWARE.
 const chunker = require("./modules/chunker");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
-const { TypeError, SendableError, ContentsError } = require("./errors/Errors");
+const {
+  TypeError,
+  SendableError,
+  ContentsError,
+  FilterError,
+} = require("./errors/Errors");
 
 function buildComponents() {
   return new MessageActionRow().addComponents(
@@ -40,7 +45,7 @@ function buildComponents() {
     new MessageButton()
       .setStyle("DANGER")
       .setLabel("Cancel")
-      .setCustomId("page-close"),
+      .setCustomId("page-close")
   );
 }
 
@@ -67,7 +72,7 @@ exports.Paginator = class {
     }
     this.perPage = paginatorOptions.perPage > 1 ? paginatorOptions.perPage : 1;
     const components = buildComponents();
-    this.components = components
+    this.components = components;
   }
   addPages(...pages) {
     return (this.pages = pages);
@@ -156,19 +161,19 @@ exports.Paginator = class {
             page.fields.push({
               name: `${item[`name`]}`,
               value: `${item[`value`]}`,
-              inline: item[`inline`]
+              inline: item[`inline`],
             });
             break;
         }
       }
       if (this.type === "SINGLE") {
-        page.addField("\u200b", fieldContents.join('\n'), false);
+        page.addField("\u200b", fieldContents.join("\n"), false);
       }
       n++;
-      page.setFooter({text: `Page ${n} of ${this.pages.length}`});
+      page.setFooter({ text: `Page ${n} of ${this.pages.length}` });
       this.builtPages.push(page);
     }
-  };
+  }
 
   async start(user, sendable) {
     try {
@@ -180,69 +185,88 @@ exports.Paginator = class {
       return msg, err;
     }
   }
-  async send(user, sendable) {
+  async send(sendable, user) {
     this.buildPages();
     const pages = this.builtPages;
 
     let m;
+    let filter;
     if (sendable.type === "GUILD_TEXT") {
+      if (user) {
+        filter = (i) => {
+          return i.user.id === user.id;
+        };
+      };
       m = await sendable.send({
         embeds: [pages[0]],
         components: [this.components],
       });
-
     } else if (sendable.type === "APPLICATION_COMMAND") {
+      if (user) {
+        filter = (i) => {
+          return i.user.id === user.id;
+        };
+      };
       m = await sendable.reply({
         embeds: [pages[0]],
         components: [this.components],
-        fetchReply: true
+        fetchReply: true,
       });
-
     } else {
       try {
         m = await sendable.send({
           embeds: [pages[0]],
           components: [this.components],
         });
-      } catch(err) {
-        throw new SendableError("Unable to send to Member. Member's DMs are likely turned off.")
+      } catch (err) {
+        throw new SendableError(
+          "Unable to send to Member. Member's DMs are likely turned off."
+        );
       }
-    };
+    }
 
-    const filter = (i) => {
-      return i.user.id === user.id
-    };
+    let collector;
+    if (filter) {
+      collector = m.channel.createMessageComponentCollector({
+        filter,
+        componentType: "BUTTON",
+        time: 120000,
+      });
+    } else {
+      collector = m.channel.createMessageComponentCollector({
+        componentType: "BUTTON",
+        time: 120000,
+      });
+    }
 
-    const collector = m.channel.createMessageComponentCollector({filter, componentType: "BUTTON", time: 120000});
-
-    collector.on('collect', async (i) => {
-      await i.deferUpdate()
+    collector.on("collect", async (i) => {
+      await i.deferUpdate();
       if (i.customId === "page-forward") {
         if (this.curpage < pages.length) {
           await sendable.editReply({
-            embeds: [pages[this.curpage]]
+            embeds: [pages[this.curpage]],
           });
           this.curpage = this.curpage + 1;
         }
-      } else if (i.customId === 'page-back') {
+      } else if (i.customId === "page-back") {
         if (this.curpage > 1) {
           await sendable.editReply({
             embeds: [pages[this.curpage - 2]],
           });
           this.curpage -= 1;
         }
-      } else if (i.customId === 'page-close') {
+      } else if (i.customId === "page-close") {
         return m.edit({
           components: [],
         });
-      };
+      }
     });
-    collector.on('end', async () => {
+    collector.on("end", async () => {
       return m.edit({
         components: [],
       });
     });
   }
-}
+};
 
-exports.Page = class extends MessageEmbed {}
+exports.Page = class extends MessageEmbed {};

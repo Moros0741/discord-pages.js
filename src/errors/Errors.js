@@ -26,3 +26,10 @@ exports.ContentsError = class extends PaginatorError {
     this.name = "ContentsError";
   }
 };
+
+exports.FilterError = class extends PaginatorError {
+  constructor(message) {
+    super(message);
+    this.name = "FilterError";
+  }
+}
