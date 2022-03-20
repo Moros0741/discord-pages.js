@@ -1,10 +1,10 @@
 {
   "name": "discord-pages.js",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Simple JavaScript module for paginating Discord Embeds and handling buttons",
   "main": "./src/discord-pages.js",
   "scripts": {
-    "test": "echo 'complete'"
+    "test": "node ./src/discord-pages.js"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/discord-pages.js#readme",
   "dependencies": {
+    "@discordjs/collection": "^0.5.0",
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.29.0",
-    "discord.js": "^13.6.0"
+    "discord.js": "^13.6.0",
+    "form-data": "^4.0.0"
   }
 }

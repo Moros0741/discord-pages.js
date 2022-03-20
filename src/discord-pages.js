@@ -139,65 +139,40 @@ exports.Paginator = class {
     if (this.contents.length > this.perPage) {
       chunkedArray = chunker.execute(this.contents, this.perPage);
     } else if (this.contents.length <= this.perPage) {
-      chunkedArray = this.contents;
+      chunkedArray = [this.contents];
     }
     let n = 0;
     for (const page of this.pages) {
-      let string = "";
-      if (chunkedArray[0]?.length > 1) {
-          for (const item of chunkedArray[n]) {
-            switch (this.type) {
-              case "SINGLE":
-                string += String(item);
-                string += "\n";
-                break;
-              case "MULTIPLE":
-                page.addField("\u200b", `${item}`, false);
-                break;
-              case "FIELD":
-                page.fields.push({
-                  name: `${item[`name`]}`,
-                  value: `${item[`value`]}`,
-                  inline: item[`inline`]
-                });
-                break;
-            }
-          }
-          if (this.type === "SINGLE") {
-            page.addField("\u200b", string, false);
-          }
-      } else {
-        for (const item of chunkedArray) {
-          switch (this.type) {
-            case "SINGLE":
-              string += String(item);
-              string += "\n";
-              break;
-            case "MULTIPLE":
-              page.addField("\u200b", `${item}`, false);
-              break;
-            case "FIELD":
-              page.fields.push({
-                name: `${item[`name`]}`,
-                value: `${item[`value`]}`,
-                inline: item[`inline`]
-              });
-              break;
-          }
+      let fieldContents = [];
+      for (const item of chunkedArray[n]) {
+        switch (this.type) {
+          case "SINGLE":
+            fieldContents.push(item);
+            break;
+          case "MULTIPLE":
+            page.addField("\u200b", `${item}`, false);
+            break;
+          case "FIELD":
+            page.fields.push({
+              name: `${item[`name`]}`,
+              value: `${item[`value`]}`,
+              inline: item[`inline`]
+            });
+            break;
         }
-        if (this.type === "SINGLE") {
-          page.addField("\u200b", string, false);
-        }
+      }
+      if (this.type === "SINGLE") {
+        page.addField("\u200b", fieldContents.join('\n'), false);
       }
       n++;
       page.setFooter({text: `Page ${n} of ${this.pages.length}`});
       this.builtPages.push(page);
-    };
-  }
+    }
+  };
 
-  async start(sendable) {
+  async start(user, sendable) {
     try {
-      await this.send(sendable);
+      await this.send(user, sendable);
     } catch (err) {
       const msg =
         "INVALID TYPE: Sendable is not of Type: TEXT_CHANNEL, DEFAULT MessageType, or APPLICATION_COMMAND";
@@ -205,20 +180,40 @@ exports.Paginator = class {
       return msg, err;
     }
   }
-  async send(sendable) {
+  async send(user, sendable) {
     this.buildPages();
     const pages = this.builtPages;
-    let m = await sendable.reply({
-      embeds: [pages[0]],
-      components: [this.components],
-      fetchReply: true,
-    });
 
-    const filter = (i) => {
-      return i.user.id === sendable.user.id
+    let m;
+    if (sendable.type === "GUILD_TEXT") {
+      m = await sendable.send({
+        embeds: [pages[0]],
+        components: [this.components],
+      });
+
+    } else if (sendable.type === "APPLICATION_COMMAND") {
+      m = await sendable.reply({
+        embeds: [pages[0]],
+        components: [this.components],
+        fetchReply: true
+      });
+
+    } else {
+      try {
+        m = await sendable.send({
+          embeds: [pages[0]],
+          components: [this.components],
+        });
+      } catch(err) {
+        throw new SendableError("Unable to send to Member. Member's DMs are likely turned off.")
+      }
     };
 
-    const collector = sendable.channel.createMessageComponentCollector({filter, componentType: "BUTTON", time: 120000});
+    const filter = (i) => {
+      return i.user.id === user.id
+    };
+
+    const collector = m.channel.createMessageComponentCollector({filter, componentType: "BUTTON", time: 120000});
 
     collector.on('collect', async (i) => {
       await i.deferUpdate()
