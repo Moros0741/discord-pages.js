@@ -1,3 +1,4 @@
 # Table of contents
 
-* [Page 1](README.md)
+* [discord-pages.js](README.md)
+* [class Paginator](class-paginator.md)
