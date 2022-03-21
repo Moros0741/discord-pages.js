@@ -8,7 +8,7 @@ description: The core paginator class used with discord-pages.js
 | --------------------------------------------------------------- | ----------------------------------------------------------------- | - |
 | [builtPages](class-paginator.md#attribute-paginator.builtpages) | [addPages( )](class-paginator.md#method-paginator.addpages-pages) |   |
 | [components](class-paginator.md#attribute-paginator.components) | [buildPages( )](class-paginator.md#method-paginator.buildpages)   |   |
-| [content](class-paginator.md#attribute-paginator.contents)s     | [getContent( )](class-paginator.md#undefined)                     |   |
+| [contents](class-paginator.md#attribute-paginator.contents)     | [getContent( )](class-paginator.md#undefined)                     |   |
 | contentType                                                     | [getContents( )](class-paginator.md#method-paginator.getcontents) |   |
 | curpage                                                         | getCurrentPage( )                                                 |   |
 | pages                                                           | getPage( )                                                        |   |
@@ -62,6 +62,78 @@ returns: \<Array\[contents] | \[ ]>
 Exposes a list of pages built using the contents set with `.setContents()` and pages added using `.addPages()`.
 
 returns: \<Array\[Page] | \[ ]>
+
+
+
+#### \[ Attribute ] Paginator.contentType
+
+The contentType set at initialization. `Paginator.contentType` accepts a string input of which can be one of three options: "SINGLE", "MULTIPLE", or "FIELD"
+
+{% tabs %}
+{% tab title="SINGLE" %}
+contentType "SINGLE" expects a list of singular contents as shown below.\
+
+
+```javascript
+const contents = ["Hello", "World", "One", "Two", "Three"];
+
+const paginator = new Paginator({
+  perPage: 5,
+  contentType: "SINGLE"
+});
+
+paginator.setContents(contents);
+```
+{% endtab %}
+
+{% tab title="MULTIPLE" %}
+contentType "MULTIPLE" expects an array of singular elements as shown below:
+
+```javascript
+const contents = ["Hello", "World", "One", "Two", "Three"];
+
+const paginator = new Paginator({
+  perPage: 5,
+  contentType: "MULTIPLE"
+});
+
+paginator.setContents(contents);
+```
+{% endtab %}
+
+{% tab title="FIELD" %}
+contentType "FIELD" expects and array of object like elements as shown below.
+
+```javascript
+const contents = [
+  {name: "Hello!", value: "How are you?", inline: false},
+  {name: "Hey There!", value: "Im okay, I guess", inline: false}
+];
+
+const paginator = new Paginator({
+  perPage: 5,
+  contentType: "FIELD"
+});
+
+paginator.setContents(contents);
+```
+{% endtab %}
+{% endtabs %}
+
+Paginator.contentType can be changed after initialization. by calling the attribute and assigning it a new value:
+
+```javascript
+const paginator = new Paginator({
+  perPage: 5,
+  contentType: "SINGLE"
+});
+
+paginator.contentType = "MULTIPLE";
+```
+
+returns: \<String(contentType\["SINGLE", "MULTIPLE", "FIELD"])>
+
+
 
 #### \[ Method ] Paginator.addPages(pages)
 
