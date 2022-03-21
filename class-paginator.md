@@ -8,11 +8,11 @@ description: The core paginator class used with discord-pages.js
 | --------------------------------------------------------------- | ----------------------------------------------------------------- | - |
 | [builtPages](class-paginator.md#attribute-paginator.builtpages) | [addPages( )](class-paginator.md#method-paginator.addpages-pages) |   |
 | [components](class-paginator.md#attribute-paginator.components) | [buildPages( )](class-paginator.md#method-paginator.buildpages)   |   |
-| [content](class-paginator.md#attribute-paginator.contents)      | [getContent( )](class-paginator.md#undefined)                     |   |
-| [curpage](class-paginator.md#attribute-paginator.curpage)       | [getContents( )](class-paginator.md#method-paginator.getcontents) |   |
-| [pages](class-paginator.md#attribute-paginator.pages)           | getCurrentPage( )                                                 |   |
-| [perPage](class-paginator.md#attribute-paginator.perpage)       | getPage( )                                                        |   |
-|                                                                 | getPageLimit( )                                                   |   |
+| [content](class-paginator.md#attribute-paginator.contents)s     | [getContent( )](class-paginator.md#undefined)                     |   |
+| contentType                                                     | [getContents( )](class-paginator.md#method-paginator.getcontents) |   |
+| curpage                                                         | getCurrentPage( )                                                 |   |
+| pages                                                           | getPage( )                                                        |   |
+| perPage                                                         | getPageLimit( )                                                   |   |
 |                                                                 | getPages( )                                                       |   |
 |                                                                 | start( )                                                          |   |
 |                                                                 | send( )                                                           |   |
