@@ -10,14 +10,14 @@ description: The core paginator class used with discord-pages.js
 | [components](class-paginator.md#attribute-paginator.components) | [buildPages( )](class-paginator.md#method-paginator.buildpages)   |   |
 | [content](class-paginator.md#attribute-paginator.contents)      | [getContent( )](class-paginator.md#undefined)                     |   |
 | [curpage](class-paginator.md#attribute-paginator.curpage)       | [getContents( )](class-paginator.md#method-paginator.getcontents) |   |
-| [pages](class-paginator.md#attribute-paginator.pages)           | getPage                                                           |   |
-| [perPage](class-paginator.md#attribute-paginator.perpage)       | getPages( )                                                       |   |
-|                                                                 | setContents( )                                                    |   |
-|                                                                 | getCurrentPage( )                                                 |   |
+| [pages](class-paginator.md#attribute-paginator.pages)           | getCurrentPage( )                                                 |   |
+| [perPage](class-paginator.md#attribute-paginator.perpage)       | getPage( )                                                        |   |
 |                                                                 | getPageLimit( )                                                   |   |
-|                                                                 | setEmojis( )                                                      |   |
+|                                                                 | getPages( )                                                       |   |
 |                                                                 | start( )                                                          |   |
 |                                                                 | send( )                                                           |   |
+|                                                                 | setContents( )                                                    |   |
+|                                                                 | setEmojis( )                                                      |   |
 
 #### \[ Attribute ] Paginator.pages
 
@@ -25,15 +25,11 @@ Returns the non-built pages that were set using method `.addpages(`...pages`).`
 
 returns: \<Array\[Page] | \[ ]>
 
-
-
 #### \[ Attribute ] Paginator.curpage
 
 Returns the current page according to the running paginator.
 
 returns: \<Number>
-
-
 
 #### \[ Attribute ] Paginator.components
 
@@ -45,8 +41,6 @@ Warning: Changing the `customId` for any of the buttons will render the paginato
 
 returns: <\[MessageActionRow]>
 
-
-
 #### \[ Attribute ] Paginator.perPage
 
 Shows the page limit set when instantiating the Paginator class.
@@ -57,31 +51,25 @@ Alias of `.getPageLimit()`
 
 returns: \<Number>
 
-
-
 #### \[ Attribute ] Paginator.contents
 
 Exposes the set contents of this paginator, set using `.setContents()`
 
 returns: \<Array\[contents] | \[ ]>
 
-
-
 #### \[ Attribute ] Paginator.builtPages
 
-Exposes a list of pages built using the contents set with `.setContents()` and pages added using `.addPages()`.&#x20;
+Exposes a list of pages built using the contents set with `.setContents()` and pages added using `.addPages()`.
 
 returns: \<Array\[Page] | \[ ]>
 
-
-
 #### \[ Method ] Paginator.addPages(pages)
 
-Synchronous method of adding pages to paginator&#x20;
+Synchronous method of adding pages to paginator
 
-|                       Parameter                       |                    Data                    | Required? |
-| :---------------------------------------------------: | :----------------------------------------: | :-------: |
-| [pages](class-paginator.md#attribute-paginator.pages) |  Array\[ Page \| MessageEmbed \| APIEmbed] |   `true`  |
+|                       Parameter                       |                    Data                   | Required? |
+| :---------------------------------------------------: | :---------------------------------------: | :-------: |
+| [pages](class-paginator.md#attribute-paginator.pages) | Array\[ Page \| MessageEmbed \| APIEmbed] |   `true`  |
 
 ```javascript
 Paginator.addPages(
@@ -94,8 +82,6 @@ Paginator.addPages(
 );
 ```
 
-
-
 #### \[ Method ] Paginator.buildPages( )
 
 Internal method used to combine set contents and pages in preparation for use when paginator is started.
@@ -103,8 +89,6 @@ Internal method used to combine set contents and pages in preparation for use wh
 {% hint style="warning" %}
 You should never call `.buildPages()` . Instead use method `.getPages()` to preview your embed pages.
 {% endhint %}
-
-
 
 #### \[ Method] Paginator.getContent(indice) <a href="#paginator.getcontent" id="paginator.getcontent"></a>
 
@@ -116,14 +100,10 @@ Method used to get the set content at the provided index.
 
 returns: <[content](class-paginator.md#attribute-paginator.contents) | Object{[content](class-paginator.md#attribute-paginator.contents)}>
 
-
-
 #### \[ Method ] Paginator.getContents( )
 
 Method used to get the contents set using `.setContents()`
 
 returns: \<Array\[[contents](class-paginator.md#attribute-paginator.contents)] | \[ ]>
 
-
-
-#### \[ Method ]&#x20;
+#### \[ Method ]
