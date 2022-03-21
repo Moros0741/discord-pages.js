@@ -106,4 +106,39 @@ Method used to get the contents set using `.setContents()`
 
 returns: \<Array\[[contents](class-paginator.md#attribute-paginator.contents)] | \[ ]>
 
-#### \[ Method ]
+#### \[ Method ] Paginator.getCurrentPage( )
+
+Retrieves the current page number that the running paginator is on.
+
+returns: \<Number>
+
+
+
+#### \[ Method ] Paginator.getPage(index)
+
+Retrieves a Page from Paginator.pages at provided index
+
+| Parameter |  Data  | Required? |
+| :-------: | :----: | :-------: |
+|   index   | Number |   `true`  |
+
+returns: \<Page>
+
+
+
+#### \[ Method ] Paginator.getPageLimit( )
+
+Retrieves the perPage limit set when initializing the Paginator class.
+
+returns \<Number>
+
+
+
+#### \[ Method ] Paginator.getPages( )
+
+Returns all pages built with supplied contents from [`Paginator.builtPages`](class-paginator.md#attribute-paginator.builtpages) as an Array.
+
+returns \<Array\[Page] | \[ ]>
+
+
+
