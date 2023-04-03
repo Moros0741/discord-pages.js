@@ -22,7 +22,7 @@ SOFTWARE.
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 */
-const chunker = require("./modules/chunker");
+const chunker = require("../src/modules/chunker");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 const {

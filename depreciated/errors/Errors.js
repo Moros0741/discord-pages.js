@@ -33,3 +33,12 @@ exports.FilterError = class extends PaginatorError {
     this.name = "FilterError";
   }
 }
+
+exports.ValidationError = class extends PaginatorError {
+  constructor(message) {
+    super(message);
+    this.name = "ValidationError";
+  }
+};
+
+exports.PaginatorError = PaginatorError;
