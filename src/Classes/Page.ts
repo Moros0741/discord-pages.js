@@ -25,7 +25,7 @@ SOFTWARE.
 import { EmbedBuilder } from "discord.js";
 
 export default class Page extends EmbedBuilder {
-	constructor() {
-		super();
+	constructor(EmbedData = {}) {
+		super(EmbedData);
 	};
 };
