@@ -22,10 +22,11 @@ SOFTWARE.
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 */
-import { ComponentTypes, PaginatorTypes } from "../Enums/PaginatorTypes";
-import discord, { MessageCreateOptions } from "discord.js";
+import { PaginatorTypes } from "../Enums/PaginatorTypes";
+import { ComponentTypes } from "../Enums/ComponentTypes";
+import discord from "discord.js";
 import Page from "./Page";
-import chunker from "../modules/chunker";
+import chunker from "../Modules/chunker";
 
 /**
  * The options for the sending the paginator
