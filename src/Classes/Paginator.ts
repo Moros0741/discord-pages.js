@@ -24,9 +24,17 @@ SOFTWARE.
 */
 import { PaginatorTypes } from "../Enums/PaginatorTypes";
 import { ComponentTypes } from "../Enums/ComponentTypes";
-import discord from "discord.js";
+import discord, { APIEmbed } from "discord.js";
 import Page from "./Page";
 import chunker from "../Modules/chunker";
+
+const MessageCreateOptions: Object = {
+  content: String = null,
+  embeds: Array<[]>,
+  components: Array<[]>,
+  fetchReply: Boolean,
+  ephemeral: Boolean,
+};
 
 /**
  * The options for the sending the paginator
@@ -83,7 +91,7 @@ export default class Paginator {
    * @private
    * @readonly
    */
-  readonly builtPages: Array<[]> = [];
+  readonly builtPages: Array<APIEmbed> = [];
   /**
    * The public emojis of the paginator
    * @type object | Array | undefined
@@ -96,7 +104,7 @@ export default class Paginator {
    * @default undefined
    * @readonly
    */
-  readonly components: Array<any> = [];
+  public components: Array<any> = [];
   /**
    * whether to delete the message on collector end or not
    * @type boolean
@@ -450,6 +458,7 @@ export default class Paginator {
     options = SendOptions
   ) {
     this.deleteOnEnd = options?.deleteOnEnd ?? false;
+    this.components = this.buildComponents();
     if (sendable instanceof discord.User) {
       return this.sendUserPages(sendable, options);
     }
@@ -472,12 +481,12 @@ export default class Paginator {
   private async sendUserPages(user: discord.User, options = SendOptions) {
     let pages = this.generatePages();
 
-    let MessageCreateOptions = {
+    let CreateOptions: typeof MessageCreateOptions = {
       embeds: [pages[0]],
       components: this.components,
     };
 
-    let message = await user.send(MessageCreateOptions);
+    let message = await user.send(CreateOptions);
 
     const collectorOptions: any = {};
 
@@ -495,7 +504,7 @@ export default class Paginator {
       }
     });
 
-    collector.on("end", async (collected) => {
+    collector.on("end", async () => {
       if (options?.deleteOnEnd === true) {
         try {
           await message.delete();
@@ -506,7 +515,7 @@ export default class Paginator {
       } else {
         try {
           await message.edit(
-            (messageCreateOptions = {
+            (CreateOptions = {
               embeds: [pages[0]],
               components: [],
             })
@@ -531,12 +540,12 @@ export default class Paginator {
   ) {
     let pages = this.generatePages();
 
-    let messageCreateOptions = {
+    let CreateOptions: typeof MessageCreateOptions = {
       embed: pages[0],
       components: this.components,
     };
 
-    let message = await channel.send(messageCreateOptions);
+    let message = await channel.send(CreateOptions);
 
     const collectorOptions: any = {};
 
@@ -554,7 +563,7 @@ export default class Paginator {
       }
     });
 
-    collector.on("end", async (collected) => {
+    collector.on("end", async () => {
       if (options?.deleteOnEnd === true) {
         try {
           await message.delete();
@@ -565,8 +574,8 @@ export default class Paginator {
       } else {
         try {
           await message.edit(
-            (messageCreateOptions = {
-              embed: pages[0],
+            (CreateOptions = {
+              embeds: [pages[0]],
               components: [],
             })
           );
@@ -625,7 +634,7 @@ export default class Paginator {
       }
     });
 
-    collector.on("end", async (collected: object) => {
+    collector.on("end", async () => {
       if (options?.deleteOnEnd === true) {
         try {
           await message.delete();
@@ -730,7 +739,7 @@ export default class Paginator {
     message: discord.Message,
     pages: any[]
   ) {
-    let messageEditOptions: object = {
+    let CreateOptions: typeof MessageCreateOptions = {
       embeds: [pages[0]],
     };
 
@@ -738,7 +747,7 @@ export default class Paginator {
       if (interaction.values[0] === "first") {
         this.currentPage = 1;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[0]],
           })
         );
@@ -746,7 +755,7 @@ export default class Paginator {
         if (this.currentPage === 1) return;
         this.currentPage--;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[this.currentPage - 1]],
           })
         );
@@ -754,7 +763,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage++;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[this.currentPage - 1]],
           })
         );
@@ -762,7 +771,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[this.currentPage - 1]],
           })
         );
@@ -775,7 +784,7 @@ export default class Paginator {
           return message.delete();
         } else {
           return message.edit(
-            (messageEditOptions = {
+            (CreateOptions = {
               embeds: [pages[0]],
               components: [],
             })
@@ -787,7 +796,7 @@ export default class Paginator {
         if (this.currentPage === 1) return;
         this.currentPage = 1;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[0]],
           })
         );
@@ -795,7 +804,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[this.currentPage - 1]],
           })
         );
@@ -803,7 +812,7 @@ export default class Paginator {
         if (this.currentPage === parseInt(interaction.values[0])) return;
         this.currentPage = parseInt(interaction.values[0]);
         return message.edit(
-          (messageEditOptions = {
+          (CreateOptions = {
             embeds: [pages[this.currentPage - 1]],
           })
         );
