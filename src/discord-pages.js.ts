@@ -27,10 +27,8 @@ SOFTWARE.
 // Path: src\discord-pages.js.ts
 import  Paginator from "./Classes/Paginator";
 import  Page from "./Classes/Page";
-import  { 
-  PaginatorTypes, 
-  ComponentTypes 
-} from "./Enums/PaginatorTypes";
+import  { PaginatorTypes } from "./Enums/PaginatorTypes";
+import { ComponentTypes } from "./Enums/ComponentTypes";
 
 export default Paginator;
 exports.Page = Page;
