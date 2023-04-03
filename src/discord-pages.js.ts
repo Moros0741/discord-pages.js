@@ -34,6 +34,6 @@ import  {
 
 export default Paginator;
 exports.Page = Page;
-exports.paginator = Paginator;
+exports.Paginator = Paginator;
 exports.PaginatorTypes = PaginatorTypes;
 exports.ComponentTypes = ComponentTypes;
