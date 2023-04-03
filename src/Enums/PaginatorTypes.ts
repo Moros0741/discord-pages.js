@@ -3,8 +3,3 @@ export enum PaginatorTypes {
 	Single,
 	Columns,
 };
-
-export enum ComponentTypes {
-	Button,
-	SelectMenu,
-};
