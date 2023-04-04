@@ -1,0 +1,1 @@
+{"version":3,"file":"PaginatorTypes.js","sourceRoot":"","sources":["../../src/Enums/PaginatorTypes.ts"],"names":[],"mappings":";;;AAAA,IAAY,cAIX;AAJD,WAAY,cAAc;IACzB,uDAAM,CAAA;IACN,uDAAM,CAAA;IACN,yDAAO,CAAA;AACR,CAAC,EAJW,cAAc,GAAd,sBAAc,KAAd,sBAAc,QAIzB;AAAA,CAAC","sourcesContent":["export enum PaginatorTypes {\r\n\tFields,\r\n\tSingle,\r\n\tColumns,\r\n};"]}

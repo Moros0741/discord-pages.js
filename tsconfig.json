@@ -32,18 +32,19 @@
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
 
 		// Language and Environment
 		"experimentalDecorators": true,
-		"lib": ["ESNext"],
+		"lib": ["ES2022"],
 		"target": "ES2022",
 		"useDefineForClassFields": true,
 	},
 	"exclude": [
 		"node_modules",
-		"dist"
+		"dist",
 	],
 	"files": [
-		"src/discord-pages.ts"
+		"./src/discord-pages.ts"
 	]
 }

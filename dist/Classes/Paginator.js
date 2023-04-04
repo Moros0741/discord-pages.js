@@ -55,123 +55,73 @@ const SendOptions = {
 };
 class Paginator {
     /**
+     * The number of items per page
+     * @type number
+     * @default 10
+     */
+    perPage = 10;
+    /**
+     * The type of contents on each page
+     * @type "Fields", "Single", or "Columns"
+     * @default PaginatorTypes.Fields | 0
+     */
+    contentType = PaginatorTypes_1.PaginatorTypes.Fields;
+    /**
+     * The type of component to use
+     * @type "Button" or "SelectMenu"
+     * @default ComponentTypes.Button | 0
+     */
+    componentType = ComponentTypes_1.ComponentTypes.Button;
+    /**
+     * The contents of the paginator
+     * @type Array<Contents>
+     * @default []
+     */
+    contents = [];
+    /**
+     * The pages of the paginator
+     * @type Array<Page>
+     * @default []
+     */
+    pages = [];
+    /**
+     * The built pages of the paginator
+     * @type Array<Page>
+     * @default []
+     * @private
+     * @readonly
+     */
+    builtPages = [];
+    /**
+     * The public emojis of the paginator
+     * @type object | Array | undefined
+     * @default undefined
+     */
+    emojis = undefined;
+    /**
+     * The readonly components of the paginator
+     * @type object | undefined
+     * @default undefined
+     * @readonly
+     */
+    components = [];
+    /**
+     * whether to delete the message on collector end or not
+     * @type boolean
+     * @default false
+     */
+    deleteOnEnd = false;
+    /**
+     * The current page that the paginator is on
+     * @type number
+     * @default 1
+     */
+    currentPage = 1;
+    /**
      * Create a new Paginator
      * @param Options Options for the paginator
      */
     constructor(PaginatorOptions) {
-        /**
-         * The number of items per page
-         * @type number
-         * @default 10
-         */
-        Object.defineProperty(this, "perPage", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 10
-        });
-        /**
-         * The type of contents on each page
-         * @type "Fields", "Single", or "Columns"
-         * @default PaginatorTypes.Fields | 0
-         */
-        Object.defineProperty(this, "contentType", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: PaginatorTypes_1.PaginatorTypes.Fields
-        });
-        /**
-         * The type of component to use
-         * @type "Button" or "SelectMenu"
-         * @default ComponentTypes.Button | 0
-         */
-        Object.defineProperty(this, "componentType", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: ComponentTypes_1.ComponentTypes.Button
-        });
-        /**
-         * The contents of the paginator
-         * @type Array<Contents>
-         * @default []
-         */
-        Object.defineProperty(this, "contents", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: []
-        });
-        /**
-         * The pages of the paginator
-         * @type Array<Page>
-         * @default []
-         */
-        Object.defineProperty(this, "pages", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: []
-        });
-        /**
-         * The built pages of the paginator
-         * @type Array<Page>
-         * @default []
-         * @private
-         * @readonly
-         */
-        Object.defineProperty(this, "builtPages", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: []
-        });
-        /**
-         * The public emojis of the paginator
-         * @type object | Array | undefined
-         * @default undefined
-         */
-        Object.defineProperty(this, "emojis", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: undefined
-        });
-        /**
-         * The readonly components of the paginator
-         * @type object | undefined
-         * @default undefined
-         * @readonly
-         */
-        Object.defineProperty(this, "components", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: []
-        });
-        /**
-         * whether to delete the message on collector end or not
-         * @type boolean
-         * @default false
-         */
-        Object.defineProperty(this, "deleteOnEnd", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false
-        });
-        /**
-         * The current page that the paginator is on
-         * @type number
-         * @default 1
-         */
-        Object.defineProperty(this, "currentPage", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 1
-        });
         Object.assign(this, PaginatorOptions);
     }
     /**

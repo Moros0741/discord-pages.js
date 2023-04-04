@@ -75,7 +75,6 @@ export default class Paginator {
      * Set the content type of the paginator
      * @param type The type of content to paginate
      * @returns The content type
-     * @default PaginatorTypes.Fields | 0
      */
     setContentType(type: PaginatorTypes | number): PaginatorTypes;
     /**
@@ -88,7 +87,7 @@ export default class Paginator {
      * Set the component type of the paginator
      * @param type The type of component to use
      * @returns The component type
-     * @default ComponentTypes.Button | 0
+     * @default "BUTTONS"
      */
     setComponentType(type: ComponentTypes | number): ComponentTypes;
     /**

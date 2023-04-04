@@ -21,7 +21,7 @@
 			"baseUrl": "./"
 	},
 	"files": [
-			"src/discord-pages.js.ts",
+			"src/discord-pages.js.ts"
 	],
 	"include": [
 			"./**/*.ts"
@@ -29,5 +29,5 @@
 	"exclude": [
 			"node_modules",
 			"dist"
-	],
+	]
 }
