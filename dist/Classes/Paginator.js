@@ -676,13 +676,11 @@ class Paginator {
      * @private
      */
     async handleSelect(interaction, message, pages) {
-        let CreateOptions = {
-            embeds: [pages[0]],
-        };
+        //let CreateOptions: typeof MessageCreateOptions;
         if (this.components[0].components[0].options.length <= 5) {
             if (interaction.values[0] === "first") {
                 this.currentPage = 1;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[0]],
                 });
             }
@@ -690,7 +688,7 @@ class Paginator {
                 if (this.currentPage === 1)
                     return;
                 this.currentPage--;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[this.currentPage - 1]],
                 });
             }
@@ -698,7 +696,7 @@ class Paginator {
                 if (this.currentPage === pages.length)
                     return;
                 this.currentPage++;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[this.currentPage - 1]],
                 });
             }
@@ -706,7 +704,7 @@ class Paginator {
                 if (this.currentPage === pages.length)
                     return;
                 this.currentPage = pages.length;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[this.currentPage - 1]],
                 });
             }
@@ -715,7 +713,7 @@ class Paginator {
                     return message.delete();
                 }
                 else {
-                    return message.edit(CreateOptions = {
+                    return message.edit({
                         embeds: [pages[0]],
                         components: [],
                     });
@@ -727,7 +725,7 @@ class Paginator {
                 if (this.currentPage === 1)
                     return;
                 this.currentPage = 1;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[0]],
                 });
             }
@@ -735,7 +733,7 @@ class Paginator {
                 if (this.currentPage === pages.length)
                     return;
                 this.currentPage = pages.length;
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[this.currentPage - 1]],
                 });
             }
@@ -743,7 +741,7 @@ class Paginator {
                 if (this.currentPage === parseInt(interaction.values[0]))
                     return;
                 this.currentPage = parseInt(interaction.values[0]);
-                return message.edit(CreateOptions = {
+                return message.edit({
                     embeds: [pages[this.currentPage - 1]],
                 });
             }

@@ -739,15 +739,13 @@ export default class Paginator {
     message: discord.Message,
     pages: any[]
   ) {
-    let CreateOptions: typeof MessageCreateOptions = {
-      embeds: [pages[0]],
-    };
+    //let CreateOptions: typeof MessageCreateOptions;
 
     if (this.components[0].components[0].options.length <= 5) {
       if (interaction.values[0] === "first") {
         this.currentPage = 1;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[0]],
           }
         );
@@ -755,7 +753,7 @@ export default class Paginator {
         if (this.currentPage === 1) return;
         this.currentPage--;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[this.currentPage - 1]],
           }
         );
@@ -763,7 +761,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage++;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[this.currentPage - 1]],
           }
         );
@@ -771,7 +769,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[this.currentPage - 1]],
           }
         );
@@ -784,7 +782,7 @@ export default class Paginator {
           return message.delete();
         } else {
           return message.edit(
-            CreateOptions = {
+            {
               embeds: [pages[0]],
               components: [],
             }
@@ -796,7 +794,7 @@ export default class Paginator {
         if (this.currentPage === 1) return;
         this.currentPage = 1;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[0]],
           }
         );
@@ -804,7 +802,7 @@ export default class Paginator {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[this.currentPage - 1]],
           }
         );
@@ -812,7 +810,7 @@ export default class Paginator {
         if (this.currentPage === parseInt(interaction.values[0])) return;
         this.currentPage = parseInt(interaction.values[0]);
         return message.edit(
-          CreateOptions = {
+          {
             embeds: [pages[this.currentPage - 1]],
           }
         );
