@@ -71,7 +71,7 @@ class Paginator {
      * @type "Button" or "SelectMenu"
      * @default ComponentTypes.Button | 0
      */
-    componentType = ComponentTypes_1.ComponentTypes.Button;
+    componentType = ComponentTypes_1.ComponentTypes.Buttons;
     /**
      * The contents of the paginator
      * @type Array<Contents>
@@ -313,7 +313,7 @@ class Paginator {
             type: 1,
             components: [],
         };
-        if (this.componentType === ComponentTypes_1.ComponentTypes.Button) {
+        if (this.componentType === ComponentTypes_1.ComponentTypes.Buttons) {
             let names = ["First", "Back", "Forward", "Last", "Stop"];
             if (this.emojis !== undefined) {
                 if (this.emojis instanceof Array) {
