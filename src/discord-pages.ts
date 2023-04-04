@@ -31,7 +31,4 @@ import  { PaginatorTypes } from "./Enums/PaginatorTypes";
 import { ComponentTypes } from "./Enums/ComponentTypes";
 
 export default Paginator;
-exports.Page = Page;
-exports.Paginator = Paginator;
-exports.PaginatorTypes = PaginatorTypes;
-exports.ComponentTypes = ComponentTypes;
+exports = Paginator, Page, PaginatorTypes, ComponentTypes;
