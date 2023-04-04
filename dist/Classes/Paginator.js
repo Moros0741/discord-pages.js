@@ -31,7 +31,7 @@ const discord_js_1 = tslib_1.__importDefault(require("discord.js"));
 const Page_1 = tslib_1.__importDefault(require("./Page"));
 const chunker_1 = tslib_1.__importDefault(require("../Modules/chunker"));
 const MessageCreateOptions = {
-    content: String = null,
+    content: (String = null),
     embeds: (Array),
     components: (Array),
     fetchReply: Boolean,
@@ -122,7 +122,9 @@ class Paginator {
      * @param Options Options for the paginator
      */
     constructor(PaginatorOptions) {
-        Object.assign(this, PaginatorOptions);
+        this.setComponentType(PaginatorOptions.componentType);
+        this.setContentType(PaginatorOptions.contentType);
+        this.setPerPage(PaginatorOptions.perPage);
     }
     /**
      * Set the content type of the paginator
@@ -130,7 +132,12 @@ class Paginator {
      * @returns The content type
      */
     setContentType(type) {
-        this.contentType = type;
+        if (typeof type === "string" || typeof type === "number") {
+            this.contentType = PaginatorTypes_1.PaginatorTypes[type];
+        }
+        else {
+            this.contentType = type;
+        }
         return this.contentType;
     }
     /**
@@ -149,7 +156,12 @@ class Paginator {
      * @default "BUTTONS"
      */
     setComponentType(type) {
-        this.componentType = type;
+        if (typeof type === "string" || typeof type === "number") {
+            this.componentType = ComponentTypes_1.ComponentTypes[type];
+        }
+        else {
+            this.componentType = type;
+        }
         return this.componentType;
     }
     /**

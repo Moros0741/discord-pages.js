@@ -29,7 +29,7 @@ import Page from "./Page";
 import chunker from "../Modules/chunker";
 
 const MessageCreateOptions: Object = {
-  content: String = null,
+  content: (String = null),
   embeds: Array<[]>,
   components: Array<[]>,
   fetchReply: Boolean,
@@ -127,15 +127,21 @@ export default class Paginator {
       "perPage" | "contentType" | "componentType"
     >
   ) {
-    Object.assign(this, PaginatorOptions);
+    this.setComponentType(PaginatorOptions.componentType);
+    this.setContentType(PaginatorOptions.contentType);
+    this.setPerPage(PaginatorOptions.perPage);
   }
   /**
    * Set the content type of the paginator
    * @param type The type of content to paginate
    * @returns The content type
    */
-  public setContentType(type: PaginatorTypes | number) {
-    this.contentType = type;
+  public setContentType(type: PaginatorTypes | number | string) {
+    if (typeof type === "string" || typeof type === "number") {
+      this.contentType = PaginatorTypes[type];
+    } else {
+      this.contentType = type;
+    }
     return this.contentType;
   }
   /**
@@ -153,8 +159,12 @@ export default class Paginator {
    * @returns The component type
    * @default "BUTTONS"
    */
-  public setComponentType(type: ComponentTypes | number) {
-    this.componentType = type;
+  public setComponentType(type: ComponentTypes | number | string) {
+    if (typeof type === "string" || typeof type === "number") {
+      this.componentType = ComponentTypes[type];
+    } else {
+      this.componentType = type;
+    }
     return this.componentType;
   }
   /**
@@ -744,35 +754,27 @@ export default class Paginator {
     if (this.components[0].components[0].options.length <= 5) {
       if (interaction.values[0] === "first") {
         this.currentPage = 1;
-        return message.edit(
-          {
-            embeds: [pages[0]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[0]],
+        });
       } else if (interaction.values[0] === "previous") {
         if (this.currentPage === 1) return;
         this.currentPage--;
-        return message.edit(
-          {
-            embeds: [pages[this.currentPage - 1]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[this.currentPage - 1]],
+        });
       } else if (interaction.values[0] === "next") {
         if (this.currentPage === pages.length) return;
         this.currentPage++;
-        return message.edit(
-          {
-            embeds: [pages[this.currentPage - 1]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[this.currentPage - 1]],
+        });
       } else if (interaction.values[0] === "last") {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
-        return message.edit(
-          {
-            embeds: [pages[this.currentPage - 1]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[this.currentPage - 1]],
+        });
       } else if (
         ["stop", "delete", "cancel", "close"].includes(
           interaction.values[0].toLowerCase()
@@ -781,39 +783,31 @@ export default class Paginator {
         if (this.deleteOnEnd === true) {
           return message.delete();
         } else {
-          return message.edit(
-            {
-              embeds: [pages[0]],
-              components: [],
-            }
-          );
+          return message.edit({
+            embeds: [pages[0]],
+            components: [],
+          });
         }
       }
     } else {
       if (parseInt(interaction.values[0]) === 1) {
         if (this.currentPage === 1) return;
         this.currentPage = 1;
-        return message.edit(
-          {
-            embeds: [pages[0]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[0]],
+        });
       } else if (parseInt(interaction.values[0]) === pages.length) {
         if (this.currentPage === pages.length) return;
         this.currentPage = pages.length;
-        return message.edit(
-          {
-            embeds: [pages[this.currentPage - 1]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[this.currentPage - 1]],
+        });
       } else {
         if (this.currentPage === parseInt(interaction.values[0])) return;
         this.currentPage = parseInt(interaction.values[0]);
-        return message.edit(
-          {
-            embeds: [pages[this.currentPage - 1]],
-          }
-        );
+        return message.edit({
+          embeds: [pages[this.currentPage - 1]],
+        });
       }
     }
   }

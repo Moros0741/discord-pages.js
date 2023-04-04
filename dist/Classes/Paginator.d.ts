@@ -76,7 +76,7 @@ export default class Paginator {
      * @param type The type of content to paginate
      * @returns The content type
      */
-    setContentType(type: PaginatorTypes | number): PaginatorTypes;
+    setContentType(type: PaginatorTypes | number | string): PaginatorTypes;
     /**
      * Set the amount of contents per page
      * @param perPage The amount of contents per page
@@ -89,7 +89,7 @@ export default class Paginator {
      * @returns The component type
      * @default "BUTTONS"
      */
-    setComponentType(type: ComponentTypes | number): ComponentTypes;
+    setComponentType(type: ComponentTypes | number | string): ComponentTypes;
     /**
      * Add contents to the paginator
      * @param contents The array of contents to set
