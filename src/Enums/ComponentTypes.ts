@@ -1,4 +1,6 @@
-export enum ComponentTypes {
+enum ComponentTypes {
   Buttons,
   SelectMenu,
 }
+
+export default ComponentTypes;

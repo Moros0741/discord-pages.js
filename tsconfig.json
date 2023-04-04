@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"outDir": "./dist/",
 		"rootDir": "./src/",
-		"sourceRoot": "./dist/",
+		"sourceRoot": "./dist/*js",
 		// Type Checking
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,

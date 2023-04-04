@@ -19,6 +19,15 @@
     "discord-js",
     "javascript"
   ],
+  "directories": {
+    "test": "src",
+    "lib": "dist"
+  },
+  "types": "./dist/discord-pages.d.ts",
+  "files": [
+    "dist",
+    "typings"
+  ], 
   "author": "Moros0741",
   "license": "MIT",
   "bugs": {

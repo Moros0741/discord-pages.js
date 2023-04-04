@@ -25,10 +25,10 @@ SOFTWARE.
 //https://www.sensedeep.com/blog/posts/2021/how-to-create-single-source-npm-module.html
 */
 // Path: src\discord-pages.js.ts
-import  Paginator from "./Classes/Paginator";
-import  Page from "./Classes/Page";
-import  { PaginatorTypes } from "./Enums/PaginatorTypes";
-import { ComponentTypes } from "./Enums/ComponentTypes";
+import Paginator from "./Classes/Paginator";
+import Page from "./Classes/Page";
+import {default as PaginatorTypes} from "./Enums/PaginatorTypes";
+import {default as ComponentTypes} from "./Enums/ComponentTypes";
 
 export default Paginator;
 exports = Paginator, Page, PaginatorTypes, ComponentTypes;

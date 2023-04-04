@@ -1,5 +1,5 @@
-import { PaginatorTypes } from "../Enums/PaginatorTypes";
-import { ComponentTypes } from "../Enums/ComponentTypes";
+import { default as PaginatorTypes } from "../Enums/PaginatorTypes";
+import { default as ComponentTypes } from "../Enums/ComponentTypes";
 import discord, { APIEmbed } from "discord.js";
 import Page from "./Page";
 export default class Paginator {

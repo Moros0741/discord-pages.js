@@ -25,8 +25,8 @@ SOFTWARE.
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 */
-const PaginatorTypes_1 = require("../Enums/PaginatorTypes");
-const ComponentTypes_1 = require("../Enums/ComponentTypes");
+const PaginatorTypes_1 = tslib_1.__importDefault(require("../Enums/PaginatorTypes"));
+const ComponentTypes_1 = tslib_1.__importDefault(require("../Enums/ComponentTypes"));
 const discord_js_1 = tslib_1.__importDefault(require("discord.js"));
 const Page_1 = tslib_1.__importDefault(require("./Page"));
 const chunker_1 = tslib_1.__importDefault(require("../Modules/chunker"));
@@ -65,13 +65,13 @@ class Paginator {
      * @type "Fields", "Single", or "Columns"
      * @default PaginatorTypes.Fields | 0
      */
-    contentType = PaginatorTypes_1.PaginatorTypes.Fields;
+    contentType = PaginatorTypes_1.default.Fields;
     /**
      * The type of component to use
      * @type "Button" or "SelectMenu"
      * @default ComponentTypes.Button | 0
      */
-    componentType = ComponentTypes_1.ComponentTypes.Buttons;
+    componentType = ComponentTypes_1.default.Buttons;
     /**
      * The contents of the paginator
      * @type Array<Contents>
@@ -133,7 +133,7 @@ class Paginator {
      */
     setContentType(type) {
         if (typeof type === "string" || typeof type === "number") {
-            this.contentType = PaginatorTypes_1.PaginatorTypes[type];
+            this.contentType = PaginatorTypes_1.default[type];
         }
         else {
             this.contentType = type;
@@ -157,7 +157,7 @@ class Paginator {
      */
     setComponentType(type) {
         if (typeof type === "string" || typeof type === "number") {
-            this.componentType = ComponentTypes_1.ComponentTypes[type];
+            this.componentType = ComponentTypes_1.default[type];
         }
         else {
             this.componentType = type;
@@ -280,13 +280,13 @@ class Paginator {
         let i = 0;
         for (const chunk of chunks) {
             switch (this.contentType) {
-                case PaginatorTypes_1.PaginatorTypes.Fields:
+                case PaginatorTypes_1.default.Fields:
                     this.builtPages.push(this.pages[i].fields.push(...chunk));
                     break;
-                case PaginatorTypes_1.PaginatorTypes.Single:
+                case PaginatorTypes_1.default.Single:
                     this.builtPages.push((this.pages[i].description = chunk.join("\n")));
                     break;
-                case PaginatorTypes_1.PaginatorTypes.Columns:
+                case PaginatorTypes_1.default.Columns:
                     let columns = chunk.length / 2;
                     this.builtPages.push(this.pages[i].fields.push({
                         name: "\u200b.",
@@ -313,7 +313,7 @@ class Paginator {
             type: 1,
             components: [],
         };
-        if (this.componentType === ComponentTypes_1.ComponentTypes.Buttons) {
+        if (this.componentType === ComponentTypes_1.default.Buttons) {
             let names = ["First", "Back", "Forward", "Last", "Stop"];
             if (this.emojis !== undefined) {
                 if (this.emojis instanceof Array) {
@@ -389,7 +389,7 @@ class Paginator {
             }
             this.components.push(component);
         }
-        else if (this.componentType === ComponentTypes_1.ComponentTypes.SelectMenu) {
+        else if (this.componentType === ComponentTypes_1.default.SelectMenu) {
             if ((0, chunker_1.default)(this.contents, this.perPage).length > 25) {
                 component.components.push({
                     type: 3,

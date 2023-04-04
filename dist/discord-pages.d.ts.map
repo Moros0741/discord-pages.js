@@ -1,1 +1,1 @@
-{"version":3,"file":"discord-pages.d.ts","sourceRoot":"./dist/","sources":["discord-pages.ts"],"names":[],"mappings":"AA2BA,OAAQ,SAAS,MAAM,qBAAqB,CAAC;AAK7C,eAAe,SAAS,CAAC"}
+{"version":3,"file":"discord-pages.d.ts","sourceRoot":"./dist/*js/","sources":["discord-pages.ts"],"names":[],"mappings":"AA2BA,OAAO,SAAS,MAAM,qBAAqB,CAAC;AAK5C,eAAe,SAAS,CAAC"}

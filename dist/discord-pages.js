@@ -30,8 +30,8 @@ SOFTWARE.
 // Path: src\discord-pages.js.ts
 const Paginator_1 = tslib_1.__importDefault(require("./Classes/Paginator"));
 const Page_1 = tslib_1.__importDefault(require("./Classes/Page"));
-const PaginatorTypes_1 = require("./Enums/PaginatorTypes");
-const ComponentTypes_1 = require("./Enums/ComponentTypes");
+const PaginatorTypes_1 = tslib_1.__importDefault(require("./Enums/PaginatorTypes"));
+const ComponentTypes_1 = tslib_1.__importDefault(require("./Enums/ComponentTypes"));
 exports.default = Paginator_1.default;
-exports = Paginator_1.default, Page_1.default, PaginatorTypes_1.PaginatorTypes, ComponentTypes_1.ComponentTypes;
+exports = Paginator_1.default, Page_1.default, PaginatorTypes_1.default, ComponentTypes_1.default;
 //# sourceMappingURL=discord-pages.js.map
