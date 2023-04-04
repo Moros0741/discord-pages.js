@@ -1,1 +1,1 @@
-{"version":3,"file":"PaginatorTypes.d.ts","sourceRoot":"","sources":["../../src/Enums/PaginatorTypes.ts"],"names":[],"mappings":"AAAA,oBAAY,cAAc;IACzB,MAAM,IAAA;IACN,MAAM,IAAA;IACN,OAAO,IAAA;CACP"}
+{"version":3,"file":"PaginatorTypes.d.ts","sourceRoot":"./dist/","sources":["Enums/PaginatorTypes.ts"],"names":[],"mappings":"AAAA,oBAAY,cAAc;IACzB,MAAM,IAAA;IACN,MAAM,IAAA;IACN,OAAO,IAAA;CACP"}
