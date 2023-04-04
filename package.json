@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Simple JavaScript module for paginating Discord Embeds and handling Buttons/SelectMenus",
   "type": "module",
-  "main": "./src/discord-pages.ts",
+  "main": "./dist/discord-pages.js",
   "scripts": {
     "build": "tsc --project ./tsconfig.json",
     "build:esm": "tsc ./src",
