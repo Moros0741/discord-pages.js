@@ -1,6 +1,8 @@
 {
 	// Mapped from https://www.typescriptlang.org/tsconfig
 	"compilerOptions": {
+		"outDir": "./dist/",
+		"rootDir": "./src/",
 		// Type Checking
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
@@ -26,7 +28,6 @@
 		"inlineSources": true,
 		"newLine": "lf",
 		"noEmitHelpers": true,
-		"outDir": "./dist",
 		"removeComments": false,
 		"sourceMap": true,
 		"esModuleInterop": true,
@@ -35,12 +36,14 @@
 		// Language and Environment
 		"experimentalDecorators": true,
 		"lib": ["ESNext"],
-		"target": "ES2021",
+		"target": "ES2022",
 		"useDefineForClassFields": true,
-		"rootDir": "./src",
 	},
 	"exclude": [
 		"node_modules",
 		"dist"
 	],
+	"files": [
+		"src/discord-pages.ts"
+	]
 }
